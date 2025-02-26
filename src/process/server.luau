@@ -73,6 +73,7 @@ function serverProcess.sendPlayerReliable(
 	writer: (value: any) -> (),
 	data: { [string]: any }
 )
+	playerAdded(player)
 	perPlayerReliable[player] = writePacket(perPlayerReliable[player], id, writer, data)
 end
 
@@ -82,6 +83,7 @@ function serverProcess.sendPlayerUnreliable(
 	writer: (value: any) -> (),
 	data: { [string]: any }
 )
+	playerAdded(player)
 	perPlayerUnreliable[player] = writePacket(perPlayerUnreliable[player], id, writer, data)
 end
 
