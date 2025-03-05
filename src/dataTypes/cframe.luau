@@ -136,9 +136,9 @@ local cframe = {
 			end
 		elseif type == COMPRESSION_TYPES.EULER then
 			-- 오일러 각 회전 (25바이트)
-			local rx = buffer.readf32(b, cursor + 12)
-			local ry = buffer.readf32(b, cursor + 16)
-			local rz = buffer.readf32(b, cursor + 20)
+			local rx = buffer.readf32(b, cursor + 13)
+			local ry = buffer.readf32(b, cursor + 17)
+			local rz = buffer.readf32(b, cursor + 21)
 			
 			return CFrame.new(x, y, z) * CFrame.fromEulerAnglesXYZ(rx, ry, rz), 25
 		end
