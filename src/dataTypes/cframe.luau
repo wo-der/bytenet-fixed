@@ -6,7 +6,7 @@ local writeu8NoAlloc = bufferWriter.writeu8NoAlloc
 local alloc = bufferWriter.alloc
 
 local COMPRESSION_TYPES = {
-	EULER = 0,           -- 오일러 각 회전 (24바이트)
+	EULER = 0,           -- 오일러 각 회전 (25바이트)
 	IDENTITY = 1,        -- 회전 없음 (13바이트)
 	AXIS_ALIGNED = 2,    -- 축 정렬 회전 (16바이트)
 	SINGLE_AXIS = 3,     -- 단일 축 회전 (18바이트)
@@ -135,12 +135,12 @@ local cframe = {
 				return cf, 18
 			end
 		elseif type == COMPRESSION_TYPES.EULER then
-			-- 오일러 각 회전 (24바이트)
+			-- 오일러 각 회전 (25바이트)
 			local rx = buffer.readf32(b, cursor + 12)
 			local ry = buffer.readf32(b, cursor + 16)
 			local rz = buffer.readf32(b, cursor + 20)
 			
-			return CFrame.new(x, y, z) * CFrame.fromEulerAnglesXYZ(rx, ry, rz), 24
+			return CFrame.new(x, y, z) * CFrame.fromEulerAnglesXYZ(rx, ry, rz), 25
 		end
 		
 		return CFrame.new(x, y, z), 13
@@ -205,10 +205,11 @@ local cframe = {
 			return
 		end
 
-		-- 4. 일반 회전: 오일러 각 사용 (24바이트)
+		-- 4. 일반 회전: 오일러 각 사용 (25바이트)
 		local rx, ry, rz = value:ToEulerAnglesXYZ()
 
-		alloc(24)
+		alloc(25)
+		writeu8NoAlloc(COMPRESSION_TYPES.EULER)
 		writef32NoAlloc(x)
 		writef32NoAlloc(y)
 		writef32NoAlloc(z)
